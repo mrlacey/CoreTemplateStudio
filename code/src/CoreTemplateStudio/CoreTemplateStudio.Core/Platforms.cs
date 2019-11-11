@@ -11,6 +11,8 @@ namespace Microsoft.Templates.Core
     {
         public const string Uwp = "Uwp";
 
+        public const string Xplat = "Xplat";
+
         public const string Web = "Web";
 
         public const string Wpf = "Wpf";
@@ -20,6 +22,7 @@ namespace Microsoft.Templates.Core
             yield return Platforms.Uwp;
             yield return Platforms.Web;
             yield return Platforms.Wpf;
+            yield return Platforms.Xplat;
         }
 
         public static bool IsValidPlatform(string platform)
