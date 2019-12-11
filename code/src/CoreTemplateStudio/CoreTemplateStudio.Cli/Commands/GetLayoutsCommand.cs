@@ -2,15 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Templates.Core.Naming
+using CommandLine;
+
+namespace Microsoft.Templates.Cli.Commands
 {
-    public enum ValidationErrorType
+    [Verb("getlayouts", HelpText = "Get layouts by core.")]
+    public class GetLayoutsCommand : GetTemplatesBaseCommand
     {
-        None,
-        EmptyName,
-        AlreadyExists,
-        BadFormat,
-        ReservedName,
-        Regex,
     }
 }

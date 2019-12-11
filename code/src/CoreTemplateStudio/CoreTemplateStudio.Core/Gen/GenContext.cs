@@ -12,6 +12,7 @@ using System.Reflection;
 using Microsoft.Templates.Core.Diagnostics;
 using Microsoft.Templates.Core.Helpers;
 using Microsoft.Templates.Core.Locations;
+using Microsoft.Templates.Core.Naming;
 using Microsoft.Templates.Core.Resources;
 
 namespace Microsoft.Templates.Core.Gen
@@ -103,12 +104,12 @@ namespace Microsoft.Templates.Core.Gen
 
         public static string GetTempGenerationPath(string projectName)
         {
-            string projectGuid = ToolBox.Shell.GetVsProjectId().ToString();
+            string projectGuid = ToolBox.Shell.GetProjectGuidByName(GenContext.Current.ProjectName).ToString();
             var projectTempFolder = Path.Combine(_tempGenerationFolder, projectGuid);
 
             Fs.EnsureFolder(projectTempFolder);
             var tempGenerationName = $"{projectName}_{DateTime.Now.FormatAsShortDateTime()}";
-            var inferredName = Naming.Infer(tempGenerationName, new List<Validator> { new SuggestedDirectoryNameValidator(projectTempFolder) }, "_");
+            var inferredName = NamingService.Infer(tempGenerationName, new List<Validator> { new FolderNameValidator(projectTempFolder) }, "_");
 
             return Path.Combine(projectTempFolder, inferredName, projectName);
         }

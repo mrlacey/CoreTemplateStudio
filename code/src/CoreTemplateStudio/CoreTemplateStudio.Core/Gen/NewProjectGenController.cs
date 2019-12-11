@@ -29,7 +29,7 @@ namespace Microsoft.Templates.Core.Gen
         public async Task UnsafeGenerateProjectAsync(UserSelection userSelection)
         {
             VerifyGenContextPaths();
-            ValidateUserSelection(userSelection);
+            ValidateUserSelection(userSelection, true);
 
             var genItems = GenComposer.Compose(userSelection).ToList();
 
@@ -54,11 +54,11 @@ namespace Microsoft.Templates.Core.Gen
 
                     if (genInfo.Template.GetTemplateType() == TemplateType.Project)
                     {
-                        AppHealth.Current.Telemetry.TrackProjectGenAsync(genInfo.Template, appProjectType, appFx, appPlatform, genResults[resultsKey], GenContext.ToolBox.Shell.GetVsProjectId(), language, genItemsTelemetryData, timeSpent, GenContext.Current.ProjectMetrics).FireAndForget();
+                        AppHealth.Current.Telemetry.TrackProjectGenAsync(genInfo.Template, appProjectType, appFx, appPlatform, genResults[resultsKey], GenContext.ToolBox.Shell.GetProjectGuidByName(GenContext.Current.ProjectName), language, genItemsTelemetryData, timeSpent, GenContext.Current.ProjectMetrics).FireAndForget();
                     }
                     else
                     {
-                        AppHealth.Current.Telemetry.TrackItemGenAsync(genInfo.Template, GenSourceEnum.NewProject, appProjectType, appFx, genResults[resultsKey]).FireAndForget();
+                        AppHealth.Current.Telemetry.TrackItemGenAsync(genInfo.Template, GenSourceEnum.NewProject, appProjectType, appFx, appPlatform, genResults[resultsKey]).FireAndForget();
                     }
                 }
             }

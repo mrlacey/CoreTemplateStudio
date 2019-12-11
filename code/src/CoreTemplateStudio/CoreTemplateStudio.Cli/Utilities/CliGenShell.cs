@@ -39,9 +39,9 @@ namespace Microsoft.Templates.Cli.Utilities
             return CliCertificateService.Instance.CreateCertificate(publisherName);
         }
 
-        public override string GetActiveProjectGuid()
+        public override bool GetActiveProjectIsWts()
         {
-            return Guid.Empty.ToString();
+            return true;
         }
 
         public override string GetActiveProjectLanguage()
@@ -69,7 +69,7 @@ namespace Microsoft.Templates.Cli.Utilities
             return Guid.Empty.ToString();
         }
 
-        public override Guid GetVsProjectId()
+        public override Guid GetProjectGuidByName(string projectName)
         {
             return Guid.Empty;
         }

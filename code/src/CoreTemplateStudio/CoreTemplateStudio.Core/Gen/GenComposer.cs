@@ -103,7 +103,17 @@ namespace Microsoft.Templates.Core.Gen
                     var genInfo = CreateGenInfo(selectedTemplate.Name, template, genQueue, newItemGeneration);
                     genInfo?.Parameters.Add(GenParams.HomePageName, userSelection.HomeName);
                     genInfo?.Parameters.Add(GenParams.ProjectName, GenContext.Current.ProjectName);
-                    genInfo?.Parameters.Add(GenParams.Username, Environment.UserName);
+
+                    if (template.GetTemplateOutputType() == TemplateOutputType.Project)
+                    {
+                        genInfo?.Parameters.Add(GenParams.WizardVersion, string.Concat("v", GenContext.ToolBox.WizardVersion));
+                        genInfo?.Parameters.Add(GenParams.TemplatesVersion, string.Concat("v", GenContext.ToolBox.TemplatesVersion));
+                        genInfo?.Parameters.Add(GenParams.ProjectType, userSelection.ProjectType);
+                        genInfo?.Parameters.Add(GenParams.FrontEndFramework, userSelection.FrontEndFramework);
+                        genInfo?.Parameters.Add(GenParams.BackEndFramework, userSelection.BackEndFramework);
+                        genInfo?.Parameters.Add(GenParams.Platform, userSelection.Platform);
+                        genInfo?.Parameters.Add(GenParams.Username, Environment.UserName);
+                    }
 
                     foreach (var dependency in genInfo?.Template.GetDependencyList())
                     {
@@ -198,6 +208,8 @@ namespace Microsoft.Templates.Core.Gen
             {
                 combinedQueue.Add(genItem);
                 var compositionQueue = new List<GenInfo>();
+
+                context.AddOrUpdate(new QueryableProperty("ishomepage", (genItem.Name == userSelection.HomeName).ToString().ToLower()));
 
                 foreach (var compositionItem in compositionCatalog)
                 {

@@ -16,39 +16,37 @@ namespace Microsoft.Templates.Core.Gen
     {
         public abstract string GetActiveProjectName();
 
+        public abstract string GetActiveProjectNamespace();
+
         public abstract string GetActiveProjectPath();
 
         public abstract string GetActiveProjectLanguage();
 
+        public abstract string GetActiveProjectTypeGuids();
+
+        public abstract Guid GetProjectGuidByName(string projectName);
+
         public abstract void SetDefaultSolutionConfiguration(string configurationName, string platformName, string projectName);
-
-        public abstract void ShowStatusBarMessage(string message);
-
-        public abstract void AddContextItemsToSolution(ProjectInfo projectInfo);
-
-        public abstract string GetActiveProjectNamespace();
-
-        public abstract void ShowTaskList();
-
-        public abstract void OpenProjectOverview();
 
         public abstract void ShowModal(IWindow shell);
 
         public abstract void CancelWizard(bool back = true);
 
+        public abstract void ShowStatusBarMessage(string message);
+
         public abstract void WriteOutput(string data);
+
+        public abstract void AddContextItemsToSolution(ProjectInfo projectInfo);
+
+        public abstract void ShowTaskList();
+
+        public abstract void OpenProjectOverview();
 
         public abstract void CloseSolution();
 
         public abstract bool IsDebuggerEnabled();
 
         public abstract bool IsBuildInProgress();
-
-        public abstract Guid GetVsProjectId();
-
-        public abstract string GetActiveProjectGuid();
-
-        public abstract string GetActiveProjectTypeGuids();
 
         public abstract void OpenItems(params string[] itemsFullPath);
 
@@ -66,22 +64,7 @@ namespace Microsoft.Templates.Core.Gen
             return "0.0.0.0-i";
         }
 
-        public bool GetActiveProjectIsWts()
-        {
-            bool result = false;
-            var activeProjectPath = GetActiveProjectPath();
-            if (!string.IsNullOrEmpty(activeProjectPath))
-            {
-                var appManifestFilePath = Path.Combine(activeProjectPath, "Package.appxmanifest");
-                if (File.Exists(appManifestFilePath))
-                {
-                    var fileContent = File.ReadAllText(appManifestFilePath);
-                    result = fileContent.Contains("genTemplate:Metadata");
-                }
-            }
-
-            return result;
-        }
+        public abstract bool GetActiveProjectIsWts();
 
         public abstract VSTelemetryInfo GetVSTelemetryInfo();
 
